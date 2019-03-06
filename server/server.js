@@ -1,12 +1,16 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const bodyParser = require("body-parser");
 const User = require('./User');
 const routes = require('./router');
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use('/', routes);
-app.listen(3000, function () {
-    console.log('Express app listening on port 3000');
+
+app.listen(3001, function () {
+    console.log('Express app listening on port 3001');
 });
 
 mongoose.set('useNewUrlParser', true);
@@ -17,8 +21,6 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
     console.log('MongoDb is connected!')
 });  
-
-app.set('view engine', 'pug');
 
 let userData = {
     email: 'roi.ial@gmail.com',

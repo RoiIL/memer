@@ -8,7 +8,7 @@ let UserSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  username: {
+  userName: {
     type: String,
     unique: true,
     required: true,

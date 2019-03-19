@@ -27,7 +27,7 @@ router.post('/signUp', (req, res) => {
                 }
             });            
         }
-    });    
+    });   
 });
 
 module.exports = router;

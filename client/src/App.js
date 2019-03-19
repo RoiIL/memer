@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Link } from "react-router-dom";
+import { Navbar } from "react-bootstrap";
+import Routes from "./Routes";
+import "./App.css";
 
 class App extends Component {
 
@@ -10,48 +14,20 @@ class App extends Component {
     password: ""
   }
 
-  render() { 
-  return (
-    <div>
-      <div style={{ padding: "10px" }}>
-        <input
-          type="text"
-          onChange = {e => this.setState({ message: e.target.value })}
-          placeholder="add something in the database"
-          style={{ width: "200px" }}
-        />
-        <button onClick = {() => this.getMessageFromServer(this.state.message)}>
-          LogIn
-        </button>
-        <p>{this.state.message}</p>
+  render() {
+    return (
+      <div className="App container">
+        <Navbar fluid collapseOnSelect>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <Link to="/">Memer</Link>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+        </Navbar>
+        <Routes />
       </div>
-
-      <div style={{ padding: "10px" }}>
-        <input
-          type = "text"
-          onChange = {email => this.setState({ email: email.target.value })}
-          placeholder= "Email"
-          style={{ width: "200px" }}
-        />
-        <input  
-          type = "text"
-          onChange = {userName => this.setState({ userName: userName.target.value })}
-          placeholder = "User Name"
-          style={{ width: "200px" }}
-        />
-        <input
-          type = "text"
-          onChange = {password => this.setState({ password: password.target.value })}
-          placeholder = "Password"
-          style={{ width: "200px" }}
-        />
-        <button onClick = {() => this.signUp(this.state)}>
-          Add User
-        </button>
-        <p>{this.state.message}</p>
-      </div>
-    </div>
-  );
+    );
   }
 
   getMessageFromServer = () => {

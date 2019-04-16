@@ -6,7 +6,8 @@ router.get('/', function (req, res) {
     return res.json({page: Home});
 });
 
-router.get('/logIn', function (req, res) {
+router.post('/login', function (req, res) {
+    User.authenticate(req.body.email, req.body.password);
     return res.json({message: 'LogIn Page'});
 });
 

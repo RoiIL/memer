@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
 import Axios from "axios";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import "../style/Login.css";
+import "../style/Signup.css";
 
-export default class Login extends Component {
+export default class Signup extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       email: "",
-      password: "",
-      message: ""
+      userName: "",
+      password: ""
     };
   }
 
   validateForm() {
-    return this.state.email.length > 0 &&
+    const bIsValid = this.state.email.length > 0 &&
+     this.state.userName.length > 0 &&
      this.state.password.length > 0;
+     return bIsValid;
   }
 
   onChange = event => {
@@ -25,22 +27,15 @@ export default class Login extends Component {
     });
   }
 
-  submitLogin = async event => {
-    event.preventDefault();
-  
-    try {
-      let user = this.state;
-      await Axios.post("/login", user);
-      this.props.history.push("/userProfile");
-    } catch (exception) {
-      alert(exception.message);
-    }
+  submitSignup = () => {
+    let user = this.state;
+    Axios.post("/signup", user);
   }
 
   render() {
     return (
-      <div className="Login">
-        <form onSubmit={this.submitLogin}>
+      <div className="Signup">
+        <form onSubmit={this.submitSignup}>
           <FormGroup controlId="email" bsSize="large">
             <ControlLabel>Email</ControlLabel>
             <FormControl
@@ -48,6 +43,14 @@ export default class Login extends Component {
               type="email"
               value={this.state.email}
               onChange={this.onChange}
+            />
+          </FormGroup>
+          <FormGroup controlId="userName" bsSize="large">
+            <ControlLabel>User Name</ControlLabel>
+            <FormControl
+              value={this.state.userName}
+              onChange={this.onChange}
+              type="text"
             />
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
@@ -64,7 +67,7 @@ export default class Login extends Component {
             disabled={!this.validateForm()}
             type="submit"
           >
-            Login
+            Signup
           </Button>
         </form>
       </div>

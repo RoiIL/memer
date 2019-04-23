@@ -7,11 +7,18 @@ router.get('/', function (req, res) {
 });
 
 router.post('/login', function (req, res) {
-    User.authenticate(req.body.email, req.body.password);
-    return res.json({message: 'LogIn Page'});
+    User.authenticate(req.body.email, req.body.password, function (error, user) {
+        if (error || !user) {
+          var err = new Error('Wrong email or password.');
+          err.status = 401;
+          return res.redirect('/notFound'); // TODO: handle errors in login.
+        } else {          
+          return res.json(user);
+        }
+      });
 });
 
-router.post('/signUp', (req, res) => {
+router.post('/signup', (req, res) => {
     const newUser = req.body;
 
     User.findOne({email: newUser.email}, function(error, user) {
@@ -20,11 +27,13 @@ router.post('/signUp', (req, res) => {
         } else if (user !== null) {            
             return res.json({message: 'User already exist.'});
         } else {
-            User.create(newUser, function (error, user) {
+            User.create(newUser, function (error, newUser) {
                 if (error) {
                     console.log(error.message);
                 } else {
-                    // New user was added to DB, take him to his profile page.
+                    console.log("New user was added to DB, taking him to his profile page.");
+                    res.json({user: newUser});
+                    res.redirect('/userProfile');
                 }
             });            
         }

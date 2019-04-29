@@ -9,9 +9,10 @@ router.get('/', function (req, res) {
 router.post('/login', function (req, res) {
     User.authenticate(req.body.email, req.body.password, function (error, user) {
         if (error || !user) {
-          var err = new Error('Wrong email or password.');
+          let err = new Error();
           err.status = 401;
-          return res.redirect('/notFound'); // TODO: handle errors in login.
+          err.message = 'Wrong email or password.';
+          return res.json(err); // TODO: handle errors in login.
         } else {          
           return res.json(user);
         }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Axios from "axios";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button, FormGroup, FormControl, ControlLabel, Collapse } from "react-bootstrap";
 import "../style/Login.css";
 
 export default class Login extends Component {
@@ -10,7 +10,8 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      message: ""
+      userName: "",
+      errorMessage: ""
     };
   }
 
@@ -27,12 +28,18 @@ export default class Login extends Component {
 
   submitLogin = async event => {
     event.preventDefault();
-  
     try {
       let user = this.state;
-      await Axios.post("/login", user);
-      this.props.history.push("/userProfile");
-    } catch (exception) {
+      await Axios.post("/login", user)
+      .then((response) => {
+        if (response.data.status === 401)
+        {
+          this.setState({errorMessage: 'Error ' + response.data.status + ': ' + response.data.message});
+        } else {
+          this.props.history.push("/userProfile");
+        }});     
+    } 
+    catch (exception) {
       alert(exception.message);
     }
   }
@@ -51,13 +58,16 @@ export default class Login extends Component {
             />
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
-            <ControlLabel>Password</ControlLabel>
+            <ControlLabel>Password</ControlLabel>            
             <FormControl
               value={this.state.password}
               onChange={this.onChange}
               type="password"
             />
           </FormGroup>
+          <Collapse in={this.state.errorMessage}>
+          <p className="ErrorMessage">{this.state.errorMessage}</p>
+          </Collapse>          
           <Button
             block
             bsSize="large"

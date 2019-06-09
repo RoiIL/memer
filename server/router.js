@@ -22,7 +22,6 @@ router.post('/login', function (req, res) {
 router.post('/signup', (req, res) => {
     const newUser = req.body;
     let err = new Error();
-    err.status = 0;
 
     User.findOne({email: newUser.email}, function(error, user) {
         if (error) {            
@@ -39,8 +38,7 @@ router.post('/signup', (req, res) => {
                     console.log(error.message);
                 } else {
                     console.log("New user was added to DB, taking him to his profile page.");
-                    res.json({user: newUser});
-                    res.redirect('/userProfile');
+                    return res.json({user: newUser});
                 }
             });            
         }

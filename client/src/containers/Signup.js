@@ -34,7 +34,7 @@ export default class Signup extends Component {
       let user = this.state;
       await Axios.post("/signup", user)
       .then((response) => {
-        if (response.data.status !== 0)
+        if (response.data.status !== undefined)
         {
           this.setState({errorMessage: 'Error ' + response.data.status + ': ' + response.data.message});
         } else {

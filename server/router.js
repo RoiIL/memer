@@ -21,12 +21,18 @@ router.post('/login', function (req, res) {
 
 router.post('/signup', (req, res) => {
     const newUser = req.body;
+    let err = new Error();
+    err.status = 0;
 
     User.findOne({email: newUser.email}, function(error, user) {
-        if (error) {
-            // Error        
-        } else if (user !== null) {            
-            return res.json({message: 'User already exist.'});
+        if (error) {            
+            err.status = 500;
+            err.message = 'Unhandeled';           
+            return res.json(err);        
+        } else if (user !== null) {
+            err.status = 400;
+            err.message = 'User already exist.';             
+            return res.json(err);
         } else {
             User.create(newUser, function (error, newUser) {
                 if (error) {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Axios from "axios";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button, FormGroup, FormControl, ControlLabel, Collapse } from "react-bootstrap";
 import "../style/Signup.css";
 
 export default class Signup extends Component {
@@ -10,7 +10,8 @@ export default class Signup extends Component {
     this.state = {
       email: "",
       userName: "",
-      password: ""
+      password: "",
+      errorMessage: ""
     };
   }
 
@@ -27,9 +28,22 @@ export default class Signup extends Component {
     });
   }
 
-  submitSignup = () => {
-    let user = this.state;
-    Axios.post("/signup", user);
+  submitSignup = async event => {
+    event.preventDefault();
+    try {
+      let user = this.state;
+      await Axios.post("/signup", user)
+      .then((response) => {
+        if (response.data.status !== 0)
+        {
+          this.setState({errorMessage: 'Error ' + response.data.status + ': ' + response.data.message});
+        } else {
+          this.props.history.push("/userProfile");
+        }});     
+    } 
+    catch (exception) {
+      alert(exception.message);
+    }
   }
 
   render() {
@@ -61,6 +75,9 @@ export default class Signup extends Component {
               type="password"
             />
           </FormGroup>
+          <Collapse in={this.state.errorMessage}>
+          <p className="ErrorMessage">{this.state.errorMessage}</p>
+          </Collapse>  
           <Button
             block
             bsSize="large"

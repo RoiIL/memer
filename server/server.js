@@ -14,7 +14,7 @@ app.listen(3001, function () {
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useCreateIndex', true);
-mongoose.connect('mongodb://localhost/memer');
+mongoose.connect('mongodb://admin:Aw1deeee@localhost/memer');
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {

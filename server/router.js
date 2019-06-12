@@ -2,11 +2,7 @@ var express = require('express');
 var router = express.Router();
 const User = require('./User');
 
-router.get('/', function (req, res) {
-    return res.json({page: Home});
-});
-
-router.post('/login', function (req, res) {
+router.post('/v1/login', function (req, res) {
     User.authenticate(req.body.email, req.body.password, function (error, user) {
         if (error || !user) {
           let err = new Error();
@@ -19,7 +15,7 @@ router.post('/login', function (req, res) {
       });
 });
 
-router.post('/signup', (req, res) => {
+router.post('/v1/signup', (req, res) => {
     const newUser = req.body;
     let err = new Error();
 
@@ -43,6 +39,10 @@ router.post('/signup', (req, res) => {
             });            
         }
     });   
+});
+
+router.get('*', function(req, res) {
+    res.status(404).send('Ooops. Page not found!');
 });
 
 module.exports = router;

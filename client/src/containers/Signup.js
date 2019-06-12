@@ -32,7 +32,7 @@ export default class Signup extends Component {
     event.preventDefault();
     try {
       let user = this.state;
-      await Axios.post("/signup", user)
+      await Axios.post("/v1/signup", user)
       .then((response) => {
         if (response.data.status !== undefined)
         {

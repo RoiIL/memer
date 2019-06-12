@@ -30,7 +30,7 @@ export default class Login extends Component {
     event.preventDefault();
     try {
       let user = this.state;
-      await Axios.post("/login", user)
+      await Axios.post("/v1/login", user)
       .then((response) => {
         if (response.data.status === 401)
         {

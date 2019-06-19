@@ -20,19 +20,3 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
     console.log('MongoDb is connected!')
 });  
-
-// let user = mongoose.model('User', userSchema);
-// let newUser = new user({name: 'Roi'});
-// newUser.save(function (err, newUser){
-//     console.log(`User ${newUser.name} was saved.`)
-// });
-
-
-// user.deleteMany({name: 'Roi'}, function(error){
-//     if (error) {
-//         console.log(error);
-//     }
-//     else {
-//         console.log('All users name Roi was removed');
-//     }
-// })

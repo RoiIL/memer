@@ -36,7 +36,7 @@ export default class Login extends Component {
         {
           this.setState({errorMessage: 'Error ' + response.data.status + ': ' + response.data.message});
         } else {
-          this.props.history.push("/userProfile");
+          this.props.history.push("/Feed");
         }});     
     } 
     catch (exception) {

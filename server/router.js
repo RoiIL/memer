@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const User = require('./User');
+const Mem = require('./Mem');
 const jwt = require('jsonwebtoken');
 const config = require('./config');
 const bcrypt = require('bcrypt');
@@ -65,6 +66,16 @@ router.get('/v1/userProfile', verifyToken, (req, res, next) => {
         res.status(200).send(user);
     });
 });
+
+router.get('/v1/posts/feed', (req, res) => {
+    Mem.find({}, (error, mems) => {
+        if (error) {
+            return res.status(500).send("There was an error in fetching the feed.");
+        }
+        
+        res.status(200).send(mems);
+    })
+})
 
 router.get('*', function(req, res) {
     res.status(404).send('Ooops. Page not found!');

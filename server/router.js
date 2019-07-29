@@ -88,10 +88,10 @@ router.get('/v1/posts/getLatestMem', verifyToken, (req, res) => {
 router.post('/v1/posts/addCaption', verifyToken, (req, res) => {
     Mem.findById(req.body.memId, function (error, mem) {
         if (error) {
-            return res.status(500).send("There was a problem finding the post.");
+            return res.status(500).send("There was a problem finding the mem.");
         }
         if (!mem) {
-            return res.status(404).send("The requested post could not be found.");
+            return res.status(404).send("The requested mem could not be found.");
         }
                   
         mem.captions.push({

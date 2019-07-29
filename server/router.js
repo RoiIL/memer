@@ -71,10 +71,37 @@ router.get('/v1/posts/feed', (req, res) => {
     Mem.find({}, (error, mems) => {
         if (error) {
             return res.status(500).send("There was an error in fetching the feed.");
-        }
-        
+        }        
         res.status(200).send(mems);
     })
+})
+
+router.get('/v1/posts/getLatestMem', verifyToken, (req, res) => {
+    Mem.find({}, { captions: 0 }, (error, mem) => {
+        if (error) {
+            return res.status(500).send("There was an error in getting the last post record from db.");
+        }
+        res.status(200).send(mem);
+    }).sort({$natural:-1}).limit(1)
+})
+
+router.post('/v1/posts/addCaption', verifyToken, (req, res) => {
+    Mem.findById(req.body.memId, function (error, mem) {
+        if (error) {
+            return res.status(500).send("There was a problem finding the post.");
+        }
+        if (!mem) {
+            return res.status(404).send("The requested post could not be found.");
+        }
+                  
+        mem.captions.push({
+            userName: req.body.userName,
+            caption: req.body.caption,
+            likes: 0,
+        })
+        mem.save();
+        res.status(200).send("Caption was added successfully.");
+    });
 })
 
 router.get('*', function(req, res) {

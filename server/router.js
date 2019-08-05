@@ -67,7 +67,7 @@ router.get('/v1/userProfile', verifyToken, (req, res, next) => {
     });
 });
 
-router.get('/v1/posts/feed', verifyToken, (req, res) => {
+router.get('/v1/posts/feed', (req, res) => {
     Mem.find({}, (error, mems) => {
         if (error) {
             return res.status(500).send("There was an error in fetching the feed.");

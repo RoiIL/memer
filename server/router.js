@@ -25,6 +25,8 @@ router.post('/v1/login', function (req, res) {
           expiresIn: 86400 // expires in 24 hours
         });
         
+        user.token = token;
+        user.save();
         res.status(200).send({ authentication: true, token: token }); 
     });
 });
@@ -49,6 +51,8 @@ router.post('/v1/signup', (req, res) => {
             } 
             console.log("New user was added to DB");
             const token = jwt.sign({id: newUser._id}, config.secret, {expiresIn: 86400 }); // Token expires in 24 hours
+            newUser.token = token;
+            newUser.save();
             return res.status(200).send({authentication: true, token: token});        
         });        
     });   
@@ -93,14 +97,21 @@ router.post('/v1/posts/addCaption', verifyToken, (req, res) => {
         if (!mem) {
             return res.status(404).send("The requested mem could not be found.");
         }
-                  
-        mem.captions.push({
-            userName: req.body.userName,
-            caption: req.body.caption,
-            likes: 0,
-        })
-        mem.save();
-        res.status(200).send("Caption was added successfully.");
+        
+        let user;
+        User.findById(req.userId, function (error, userByToken) {
+            if (error) {
+                return res.status(404).send("Access denied. You need to be logged in to add a caption.");
+            }
+            user = userByToken;
+            mem.captions.push({
+                userName: user.userName,
+                caption: req.body.caption,
+                likes: 0,
+            })
+            mem.save();
+            res.status(200).send("Caption was added successfully.");
+        });        
     });
 })
 

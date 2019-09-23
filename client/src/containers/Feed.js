@@ -11,7 +11,7 @@ export default class Feed extends Component {
     }
 
     componentDidMount() {
-        Axios.get('/v1/posts/feed')
+        Axios.get('/tests/feed')
         .then((res) => {
             this.setState({ mems: res.data });
             console.log("Mems", this.state.mems);

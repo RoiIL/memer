@@ -115,6 +115,16 @@ router.post('/v1/posts/addCaption', verifyToken, (req, res) => {
     });
 })
 
+// Tests Section
+router.get('/tests/feed', (req, res) => {
+    Mem.find({}, (error, mems) => {
+        if (error) {
+            return res.status(500).send("There was an error in fetching the feed.");
+        }        
+        res.status(200).send(mems);
+    })
+})
+
 router.get('*', function(req, res) {
     res.status(404).send('Ooops. Page not found!');
 });

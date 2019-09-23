@@ -26,7 +26,9 @@ export default class Feed extends Component {
                 <div key={caption._id}>
                     <img alt="" className="photo" key={mem._id} src={mem.url} />
                     <br/><br/>
-                    <span>{caption.userName}: {caption.caption}</span>
+                    <span>{caption.userName}:</span>
+                    <br/>
+                    <span>{caption.caption}</span>
                     <br/>
                     <span>Likes: {caption.likes}</span>
                     <br/><br/>                    
